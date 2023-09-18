@@ -278,6 +278,11 @@ static void oled_render_wpm(int X, int Y) {
     oled_write("wpm", false);
 }
 
+void oled_render_keyboard_locks(void) {
+    led_t led_state = host_keyboard_led_state();
+    oled_write_ln_P(PSTR("NUM"), led_state.num_lock);
+}
+
 bool oled_task_user(void) {
     current_wpm = get_current_wpm();
     set_wpm_str(current_wpm);
@@ -288,6 +293,7 @@ bool oled_task_user(void) {
     } else {
         oled_render_layer_state();
         oled_render_wpm(2,14);
+        oled_render_keyboard_locks();
     }
     return false;
 }
